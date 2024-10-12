@@ -25,7 +25,10 @@ def test_http_triggerham_with_name(mock_container, mock_request, monkeypatch):
     # Load environment variables for testing
     monkeypatch.setenv("COSMOSDB_ENDPOINT", os.getenv("COSMOSDB_ENDPOINT"))
     monkeypatch.setenv("COSMOSDB_KEY", os.getenv("COSMOSDB_KEY"))
-    
+
+    # Set up the mock return value for the container's read_item method
+    mock_container.read_item.return_value = {'visitor_count': 1}
+
     response = http_triggerham(mock_request)
     
     assert response.status_code == 200
@@ -35,11 +38,13 @@ def test_http_triggerham_with_name(mock_container, mock_request, monkeypatch):
 
 @patch('function_app.container')
 def test_http_triggerham_without_name(mock_container, mock_request):
-    mock_container.read_item.return_value = {'count': 0}
-    
+    # Set up the mock return value for the container's read_item method
+    mock_container.read_item.return_value = {'visitor_count': 1}
+
     response = http_triggerham(mock_request)
     
     assert response.status_code == 200
     data = json.loads(response.get_body())
     assert data['message'] == "This HTTP triggered function executed successfully."
     assert data['visitor_count'] == 1
+
