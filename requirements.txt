@@ -1,0 +1,5 @@
+pytest
+azure-functions
+azure-cosmos
+python-dotenv
+# Add any other dependencies here
