@@ -20,25 +20,35 @@ def mock_request():
     req.get_json.return_value = {}
     return req
 
-@patch('function_app.container')  # Mock the Cosmos DB container
-def test_http_triggerham_with_name(mock_container, mock_request):
-    mock_container.read_item.return_value = {'count': 0}
-    mock_request.params['name'] = 'Hammad'
-    
+@patch('function_app.container')
+def test_http_triggerham_with_name(mock_container, mock_request, monkeypatch):
+    # Load environment variables for testing
+    monkeypatch.setenv("COSMOSDB_ENDPOINT", os.getenv("COSMOSDB_ENDPOINT"))
+    monkeypatch.setenv("COSMOSDB_KEY", os.getenv("COSMOSDB_KEY"))
+
+    # Set up the mock return value for the container's read_item method
+    mock_container.read_item.return_value = {'visitor_count': 1}
+
+    # Simulate a request with a name
+    mock_request.get_json.return_value = {'name': 'Hammad'}
+
     response = http_triggerham(mock_request)
-    
+
     assert response.status_code == 200
     data = json.loads(response.get_body())
     assert data['message'] == "Hello, Hammad. Your name has been added to the database."
     assert data['visitor_count'] == 1
 
+
 @patch('function_app.container')
 def test_http_triggerham_without_name(mock_container, mock_request):
-    mock_container.read_item.return_value = {'count': 0}
-    
+    # Set up the mock return value for the container's read_item method
+    mock_container.read_item.return_value = {'visitor_count': 1}
+
     response = http_triggerham(mock_request)
     
     assert response.status_code == 200
     data = json.loads(response.get_body())
     assert data['message'] == "This HTTP triggered function executed successfully."
     assert data['visitor_count'] == 1
+
