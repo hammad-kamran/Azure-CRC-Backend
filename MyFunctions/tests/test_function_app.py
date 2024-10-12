@@ -20,10 +20,11 @@ def mock_request():
     req.get_json.return_value = {}
     return req
 
-@patch('function_app.container')  # Mock the Cosmos DB container
-def test_http_triggerham_with_name(mock_container, mock_request):
-    mock_container.read_item.return_value = {'count': 0}
-    mock_request.params['name'] = 'Hammad'
+@patch('function_app.container')
+def test_http_triggerham_with_name(mock_container, mock_request, monkeypatch):
+    # Load environment variables for testing
+    monkeypatch.setenv("COSMOSDB_ENDPOINT", os.getenv("COSMOSDB_ENDPOINT"))
+    monkeypatch.setenv("COSMOSDB_KEY", os.getenv("COSMOSDB_KEY"))
     
     response = http_triggerham(mock_request)
     
