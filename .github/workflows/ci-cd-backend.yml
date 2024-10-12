@@ -33,10 +33,14 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }} # Change this to your secret's name
         allow-no-subscriptions: false
 
+    - name: Create ZIP file
+      run: |
+        zip -r functionapp.zip . # Create a zip of your current directory
+
     - name: Deploy to Azure
       env:
         AZURE_FUNCTIONAPP_NAME: hammadresume-funcAPI
-        AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'
+        AZURE_FUNCTIONAPP_PACKAGE_PATH: 'functionapp.zip' # Use the zip file created
       run: |
         az functionapp deployment source config-zip \
           --resource-group Class-Hammad-Kamran-RG \
