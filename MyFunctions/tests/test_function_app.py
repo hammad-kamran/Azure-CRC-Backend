@@ -29,12 +29,16 @@ def test_http_triggerham_with_name(mock_container, mock_request, monkeypatch):
     # Set up the mock return value for the container's read_item method
     mock_container.read_item.return_value = {'visitor_count': 1}
 
+    # Simulate a request with a name
+    mock_request.get_json.return_value = {'name': 'Hammad'}
+
     response = http_triggerham(mock_request)
-    
+
     assert response.status_code == 200
     data = json.loads(response.get_body())
     assert data['message'] == "Hello, Hammad. Your name has been added to the database."
     assert data['visitor_count'] == 1
+
 
 @patch('function_app.container')
 def test_http_triggerham_without_name(mock_container, mock_request):
