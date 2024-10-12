@@ -40,3 +40,4 @@ jobs:
           --resource-group Class-Hammad-Kamran-RG \
           --name $AZURE_FUNCTIONAPP_NAME \
           --src $AZURE_FUNCTIONAPP_PACKAGE_PATH
+
