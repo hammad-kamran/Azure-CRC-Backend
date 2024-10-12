@@ -21,10 +21,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Run tests
+      env:
+        COSMOSDB_ENDPOINT: ${{ secrets.COSMOSDB_ENDPOINT }}
+        COSMOSDB_KEY: ${{ secrets.COSMOSDB_KEY }}
       run: |
-        # Set environment variables from secrets
-        echo "COSMOSDB_ENDPOINT=${{ secrets.COSMOSDB_ENDPOINT }}" >> $GITHUB_ENV
-        echo "COSMOSDB_KEY=${{ secrets.COSMOSDB_KEY }}" >> $GITHUB_ENV
         pytest MyFunctions/tests
 
     - name: Deploy to Azure
