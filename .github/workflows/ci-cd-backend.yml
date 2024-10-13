@@ -37,9 +37,9 @@ jobs:
       run: |
         zip -r functionapp.zip . # Create a zip of your current directory
 
-    - name: Deploy ARM Template
-      run: |
-        az deployment group create --resource-group Class-Hammad-Kamran-RG --template-file Infrastructure/template.json --parameters Infrastructure/parameters.json
+    #- name: Deploy ARM Template
+      # run: |
+        # az deployment group create --resource-group Class-Hammad-Kamran-RG --template-file Infrastructure/template.json --parameters Infrastructure/parameters.json
 
     - name: Deploy to Azure
       env:
