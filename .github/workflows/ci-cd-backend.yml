@@ -39,7 +39,7 @@ jobs:
 
     - name: Deploy ARM Template
       run: |
-        az deployment group create --resource-group ResourceWaqas --template-file Infrastructure/template.json --parameters Infrastructure/parameters.json
+        az deployment group create --resource-group Class-Hammad-Kamran-RG --template-file Infrastructure/template.json --parameters Infrastructure/parameters.json
 
     - name: Deploy to Azure
       env:
