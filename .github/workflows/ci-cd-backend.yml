@@ -37,6 +37,10 @@ jobs:
       run: |
         zip -r functionapp.zip . # Create a zip of your current directory
 
+    - name: Deploy ARM Template
+      run: |
+        az deployment group create --resource-group ResourceWaqas --template-file Infrastructure/template.json --parameters Infrastructure/parameters.json
+
     - name: Deploy to Azure
       env:
         AZURE_FUNCTIONAPP_NAME: hammadresume-funcAPI
