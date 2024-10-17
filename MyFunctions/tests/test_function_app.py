@@ -11,7 +11,7 @@ load_dotenv()
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from function_app import http_triggerham
+from function_app import http_trigger_ham
 
 @pytest.fixture
 def mock_request():
@@ -21,7 +21,7 @@ def mock_request():
     return req
 
 @patch('function_app.container')
-def test_http_triggerham_with_name(mock_container, mock_request, monkeypatch):
+def test_http_trigger_ham_with_name(mock_container, mock_request, monkeypatch):
     # Load environment variables for testing
     monkeypatch.setenv("COSMOSDB_ENDPOINT", os.getenv("COSMOSDB_ENDPOINT"))
     monkeypatch.setenv("COSMOSDB_KEY", os.getenv("COSMOSDB_KEY"))
@@ -32,7 +32,7 @@ def test_http_triggerham_with_name(mock_container, mock_request, monkeypatch):
     # Simulate a request with a name
     mock_request.get_json.return_value = {'name': 'Hammad'}
 
-    response = http_triggerham(mock_request)
+    response = http_trigger_ham(mock_request)
 
     assert response.status_code == 200
     data = json.loads(response.get_body())
@@ -41,11 +41,11 @@ def test_http_triggerham_with_name(mock_container, mock_request, monkeypatch):
 
 
 @patch('function_app.container')
-def test_http_triggerham_without_name(mock_container, mock_request):
+def test_http_trigger_ham_without_name(mock_container, mock_request):
     # Set up the mock return value for the container's read_item method
     mock_container.read_item.return_value = {'visitor_count': 1}
 
-    response = http_triggerham(mock_request)
+    response = http_trigger_ham(mock_request)
     
     assert response.status_code == 200
     data = json.loads(response.get_body())
