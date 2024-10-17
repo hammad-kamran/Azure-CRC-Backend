@@ -1,40 +1,30 @@
-import azure.functions as func
 import os
+import azure.functions as func
 import logging
 import json
 from azure.cosmos import CosmosClient, exceptions
-from dotenv import load_dotenv
 
-# Load environment variables from .env file
-load_dotenv()
-
-# Initialize CosmosDB client with your specific details
+# Fetch CosmosDB client details from environment variables
 endpoint = os.environ.get("COSMOSDB_ENDPOINT")
 key = os.environ.get("COSMOSDB_KEY")
 
-if not endpoint or not key:
-    raise ValueError("Missing required environment variables")
+# Debugging: Print environment variables
+print("COSMOSDB_ENDPOINT:", endpoint)
+print("COSMOSDB_KEY:", key)
 
 database_name = "VisitorCounterDB"
-container_name = "visitorCount"
+container_name = "VisitorCount"
 
-print(f"Endpoint: {endpoint}")
-print(f"Key: {key}")
-
-client = CosmosClient(endpoint, credential=key)
+client = CosmosClient(endpoint, credential=key)  # Use credential parameter for key
 database = client.get_database_client(database_name)
 container = database.get_container_client(container_name)
 
 app = func.FunctionApp(http_auth_level=func.AuthLevel.FUNCTION)
 
-@app.route(route="http_triggerham")
-def http_triggerham(req: func.HttpRequest) -> func.HttpResponse:
+@app.route(route="http_trigger_ham")
+def http_trigger_ham(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
-
-    # Initialize visitor count variable
     visitor_count = 0
-
-    # Increment the visitor counter
     try:
         visitor_item = container.read_item(item="visitor_count", partition_key="visitor_count")
         visitor_count = visitor_item.get('count', 0)
@@ -42,23 +32,20 @@ def http_triggerham(req: func.HttpRequest) -> func.HttpResponse:
         container.upsert_item(visitor_item)
         visitor_count = visitor_item['count']
     except exceptions.CosmosHttpResponseError:
-        # Create the item if it doesn't exist
         visitor_item = {
             'id': 'visitor_count',
-            'count': 1,
-            'partition_key': 'visitor_count'  # Ensure you have a partition key if needed
+            'count': 1
         }
         container.create_item(visitor_item)
         visitor_count = 1
 
-    # Process the request for a name
     name = req.params.get('name')
     if not name:
         try:
             req_body = req.get_json()
         except ValueError:
-            pass
-        else:
+            req_body = None
+        if req_body:
             name = req_body.get('name')
 
     if name:
