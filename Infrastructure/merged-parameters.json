@@ -3,16 +3,16 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "databaseAccounts_hammad_resume_cosmosdb_name": {
-      "value": null
+      "value": "hammad-resume-cosmosdb"
     },
     "sites_hammadresume_func_name": {
-      "value": null
+      "value": "hammadresume-funcAPI"
     },
     "serverfarms_ASP_hammadresume_func_31da_externalid": {
       "value": null
     },
     "storageAccounts_hammadresumestorages_name": {
-      "value": null
+      "value": "hammadresumewebsite"
     }
   }
 }
