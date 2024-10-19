@@ -7,15 +7,15 @@
       "type": "String"
     },
     "sites_hammadresume_func_name": {
-      "defaultValue": "hammadresume-func",
+      "defaultValue": "hammadresume-funcAPI",
       "type": "String"
     },
     "serverfarms_ASP_hammadresume_func_31da_externalid": {
-      "defaultValue": "/subscriptions/0e9c1c27-a7eb-44b6-8772-69bdb760d087/resourceGroups/Class-Hammad-Kamran-RG/providers/Microsoft.Web/serverfarms/ASP-hammadresume-func-31da",
+      "defaultValue": "/subscriptions/0e9c1c27-a7eb-44b6-8772-69bdb760d087/resourceGroups/hammad-resume-rg/providers/Microsoft.Web/serverfarms/ASP-hammadresume-func-31da",
       "type": "String"
     },
     "storageAccounts_hammadresumestorages_name": {
-      "defaultValue": "hammadresumestorages",
+      "defaultValue": "hammadresumewebsite",
       "type": "String"
     }
   },
