@@ -43,5 +43,5 @@ jobs:
 
     - name: Deploy ARM Template
       run: |
-        az deployment group create --resource-group Class-Hammad-Kamran-RG --template-file Infrastructure/merged-template.json --parameters Infrastructure/merged-parameters.json
+        az deployment group create --resource-group hammad-resume-rg --template-file Infrastructure/merged-template.json --parameters Infrastructure/merged-parameters.json
 
